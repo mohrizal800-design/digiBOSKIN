@@ -3,15 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Moderasi Digitalisasi Pembelajaran BOSKIN 2026 - Sulteng</title>
+    <title>Moderasi & Penilaian Peer Teaching BOSKIN 2026 - Sulteng</title>
     <style>
         :root {
             --primary: #0284c7;
             --primary-dark: #0369a1;
             --secondary: #0d9488;
             --accent: #f59e0b;
-            --accent-pink: #ec4899;
-            --accent-purple: #8b5cf6;
             --danger: #ef4444;
             --bg-gradient: linear-gradient(135deg, #0f172a 0%, #1e3a8a 50%, #065f46 100%);
             --card-bg: rgba(255, 255, 255, 0.95);
@@ -53,7 +51,46 @@
             accent-color: var(--accent);
         }
 
-        /* Styling Landing Page Nuansa Sulteng & Colorful */
+        /* Navigasi Menu Antar Halaman */
+        .nav-tabs {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .nav-btn {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 2px solid rgba(255, 255, 255, 0.4);
+            padding: 10px 25px;
+            border-radius: 30px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .nav-btn.active {
+            background: var(--accent);
+            color: #0f172a;
+            border-color: var(--accent);
+            box-shadow: 0 4px 12px rgba(245, 158, 11, 0.4);
+        }
+
+        .nav-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .page-section {
+            display: none;
+        }
+
+        .page-section.active-page {
+            display: block;
+            animation: fadeInScale 0.5s ease-out;
+        }
+
+        /* Landing Page */
         #landing-page {
             position: fixed;
             top: 0;
@@ -77,7 +114,6 @@
             width: 90%;
             box-shadow: 0 25px 35px -5px rgba(0, 0, 0, 0.3);
             border-top: 6px solid var(--accent);
-            animation: fadeInScale 0.8s ease-out;
         }
 
         .landing-card h1 {
@@ -85,7 +121,6 @@
             font-size: 26px;
             margin-bottom: 8px;
             text-transform: uppercase;
-            letter-spacing: 0.5px;
         }
 
         .landing-card h2 {
@@ -126,16 +161,9 @@
             font-weight: bold;
             border-radius: 10px;
             cursor: pointer;
-            transition: transform 0.2s, box-shadow 0.2s;
             box-shadow: 0 6px 15px rgba(245, 158, 11, 0.4);
         }
 
-        .btn-enter:hover {
-            transform: translateY(-3px) scale(1.02);
-            box-shadow: 0 10px 25px rgba(245, 158, 11, 0.6);
-        }
-
-        /* Styling Main Dashboard */
         #main-dashboard {
             display: none;
             opacity: 0;
@@ -159,14 +187,12 @@
         header h1 {
             margin: 0 0 8px 0;
             font-size: 24px;
-            text-shadow: 1px 1px 3px rgba(0,0,0,0.3);
         }
 
         header p {
             margin: 0;
             font-size: 14px;
             color: #fef3c7;
-            font-weight: 500;
         }
 
         .grid-section {
@@ -189,12 +215,6 @@
             box-shadow: 0 8px 20px rgba(0,0,0,0.15);
             margin-bottom: 25px;
             border-top: 4px solid var(--secondary);
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
-        }
-
-        .card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 12px 25px rgba(0,0,0,0.2);
         }
 
         .card h3 {
@@ -205,7 +225,6 @@
             font-size: 18px;
         }
 
-        /* Timer Styles */
         .timer-display {
             font-size: 52px;
             font-weight: 800;
@@ -213,8 +232,6 @@
             color: #0369a1;
             margin: 15px 0;
             font-family: 'Courier New', Courier, monospace;
-            letter-spacing: 2px;
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
         }
 
         .timer-controls, .spinner-controls {
@@ -230,22 +247,13 @@
             font-weight: 600;
             cursor: pointer;
             color: white;
-            transition: transform 0.1s, filter 0.2s, box-shadow 0.2s;
         }
 
-        .btn-action-timer:hover, .btn-action-spinner:hover {
-            filter: brightness(1.15);
-            transform: translateY(-2px);
-            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-        }
+        .btn-start { background: #10b981; }
+        .btn-pause { background: #f59e0b; }
+        .btn-reset { background: #ef4444; }
+        .btn-spin { background: #8b5cf6; width: 100%; font-size: 16px; padding: 12px; margin-top: 15px;}
 
-        .btn-action-timer:active, .btn-action-spinner:active { transform: scale(0.95); }
-        .btn-start { background: linear-gradient(135deg, #10b981 0%, #059669 100%); }
-        .btn-pause { background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%); }
-        .btn-reset { background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%); }
-        .btn-spin { background: linear-gradient(135deg, #8b5cf6 0%, #6d28d9 100%); width: 100%; font-size: 16px; padding: 12px; margin-top: 15px;}
-
-        /* Colorful 3D Button Styles */
         .btn-3d-container {
             display: flex;
             flex-direction: column;
@@ -254,44 +262,18 @@
 
         .btn-3d {
             display: block;
-            position: relative;
             background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
             color: white;
             text-decoration: none;
             padding: 14px 18px;
             border-radius: 12px;
             font-weight: 600;
-            text-align: left;
             box-shadow: 0 6px 0 #075985, 0 10px 15px rgba(0, 0, 0, 0.2);
-            transition: all 0.15s ease;
-            transform: translateY(0);
         }
 
-        .btn-3d:nth-child(2) {
-            background: linear-gradient(135deg, #0d9488 0%, #115e59 100%);
-            box-shadow: 0 6px 0 #134e4a, 0 10px 15px rgba(0, 0, 0, 0.2);
-        }
-
-        .btn-3d:nth-child(3) {
-            background: linear-gradient(135deg, #8b5cf6 0%, #6d28d9 100%);
-            box-shadow: 0 6px 0 #5b21b6, 0 10px 15px rgba(0, 0, 0, 0.2);
-        }
-
-        .btn-3d:nth-child(4) {
-            background: linear-gradient(135deg, #ec4899 0%, #be185d 100%);
-            box-shadow: 0 6px 0 #9d174d, 0 10px 15px rgba(0, 0, 0, 0.2);
-        }
-
-        .btn-3d:hover {
-            transform: translateY(-3px);
-            filter: brightness(1.1);
-            box-shadow: 0 9px 0 rgba(0,0,0,0.3), 0 15px 20px rgba(0, 0, 0, 0.25);
-        }
-
-        .btn-3d:active {
-            transform: translateY(4px);
-            box-shadow: 0 2px 0 rgba(0,0,0,0.3), 0 5px 8px rgba(0, 0, 0, 0.1);
-        }
+        .btn-3d:nth-child(2) { background: linear-gradient(135deg, #0d9488 0%, #115e59 100%); box-shadow: 0 6px 0 #134e4a, 0 10px 15px rgba(0, 0, 0, 0.2); }
+        .btn-3d:nth-child(3) { background: linear-gradient(135deg, #8b5cf6 0%, #6d28d9 100%); box-shadow: 0 6px 0 #5b21b6, 0 10px 15px rgba(0, 0, 0, 0.2); }
+        .btn-3d:nth-child(4) { background: linear-gradient(135deg, #ec4899 0%, #be185d 100%); box-shadow: 0 6px 0 #9d174d, 0 10px 15px rgba(0, 0, 0, 0.2); }
 
         .btn-3d-desc {
             font-size: 12px;
@@ -300,7 +282,6 @@
             font-weight: normal;
         }
 
-        /* Wheel Spinner Styles */
         .wheel-container {
             position: relative;
             width: 220px;
@@ -315,7 +296,6 @@
             border: 6px solid #0369a1;
             position: relative;
             overflow: hidden;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
             transition: transform 4s cubic-bezier(0.15, 0.9, 0.2, 1);
             background: #cbd5e1;
         }
@@ -331,7 +311,6 @@
             border-right: 12px solid transparent;
             border-top: 24px solid #ef4444;
             z-index: 10;
-            filter: drop-shadow(0 2px 2px rgba(0,0,0,0.3));
         }
 
         .wheel-center {
@@ -345,7 +324,6 @@
             border: 4px solid #0369a1;
             border-radius: 50%;
             z-index: 5;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
         }
 
         .spinner-result {
@@ -358,119 +336,172 @@
             font-weight: bold;
             color: #b45309;
             margin-top: 15px;
-            min-height: 30px;
-            box-shadow: inset 0 2px 4px rgba(0,0,0,0.05);
         }
 
-        textarea.spinner-input {
+        textarea.spinner-input, input.form-input {
             width: 100%;
             padding: 12px;
             border: 1px solid #cbd5e1;
             border-radius: 10px;
             font-size: 14px;
             box-sizing: border-box;
-            resize: vertical;
             margin-bottom: 10px;
         }
 
-        /* Table & Checklist Styles */
-        table {
+        /* Penilaian Real-Time */
+        .instrumen-table {
             width: 100%;
             border-collapse: collapse;
-            margin-top: 10px;
-            font-size: 14px;
+            margin-top: 15px;
+            font-size: 13px;
+            background: white;
             border-radius: 10px;
             overflow: hidden;
         }
 
-        th, td {
+        .instrumen-table th, .instrumen-table td {
             border: 1px solid #cbd5e1;
-            padding: 12px;
-            text-align: left;
+            padding: 10px;
             vertical-align: middle;
         }
 
-        th {
-            background-color: #0284c7;
+        .instrumen-table th {
+            background-color: #0369a1;
             color: white;
-            font-weight: 600;
-        }
-
-        tr {
-            transition: background-color 0.2s ease;
-        }
-
-        tr:hover td {
-            background-color: #f1f5f9;
-        }
-
-        tr:nth-child(even) {
-            background-color: #f8fafc;
-        }
-
-        .checkbox-cell {
             text-align: center;
-            width: 40px;
         }
 
-        .checkbox-cell input[type="checkbox"] {
-            width: 20px;
-            height: 20px;
+        .instrumen-table tr:nth-child(even) { background-color: #f8fafc; }
+
+        .score-radio {
+            text-align: center;
             cursor: pointer;
-            accent-color: #0d9488;
         }
 
-        .completed-row {
-            background-color: #ccfbf1 !important;
-            color: #065f46;
-            text-decoration: line-through;
-            opacity: 0.85;
-        }
-
-        .progress-bar-container {
-            background: #e2e8f0;
-            border-radius: 10px;
+        .score-radio input {
+            width: 18px;
             height: 18px;
-            width: 100%;
-            margin-top: 15px;
-            overflow: hidden;
-            box-shadow: inset 0 2px 4px rgba(0,0,0,0.05);
+            cursor: pointer;
         }
 
-        .progress-bar {
-            background: linear-gradient(90deg, #0d9488 0%, #10b981 100%);
-            height: 100%;
-            width: 0%;
-            transition: width 0.4s ease;
+        .feedback-preview-card {
+            background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+            border: 1px solid #cbd5e1;
+            border-left: 6px solid var(--secondary);
+            border-radius: 14px;
+            padding: 20px;
+            margin-top: 20px;
+            box-shadow: 0 6px 15px rgba(0,0,0,0.05);
         }
 
-        .progress-text {
-            font-size: 14px;
+        .feedback-preview-card h4 {
+            margin: 0 0 15px 0;
+            color: #0369a1;
+            font-size: 16px;
+            border-bottom: 2px solid #e2e8f0;
+            padding-bottom: 8px;
+        }
+
+        .feedback-section-box {
+            background: #f1f5f9;
+            border-radius: 10px;
+            padding: 12px 15px;
+            margin-bottom: 12px;
+        }
+
+        .feedback-section-box.saran-box { background: #fffbeb; border-left: 4px solid var(--accent); }
+        .feedback-section-box.catatan-box { background: #ecfdf5; border-left: 4px solid var(--secondary); }
+
+        .feedback-label {
+            font-size: 12px;
             font-weight: bold;
-            color: #0f172a;
-            margin-top: 8px;
-            text-align: right;
+            text-transform: uppercase;
+            color: #64748b;
+            margin-bottom: 4px;
+            display: block;
         }
 
-        footer {
+        .feedback-content {
+            font-size: 14px;
+            color: #1e293b;
+            white-space: pre-wrap;
+            line-height: 1.5;
+        }
+
+        .recap-box {
+            background: linear-gradient(135deg, #f0fdf4 0%, #ccfbf1 100%);
+            border: 2px solid #0d9488;
+            padding: 20px;
+            border-radius: 14px;
+            margin-top: 20px;
             text-align: center;
-            margin-top: 40px;
-            font-size: 13px;
-            color: #fef3c7;
-            border-top: 1px solid rgba(255,255,255,0.2);
-            padding-top: 20px;
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
         }
 
-        @keyframes fadeInScale {
-            0% { opacity: 0; transform: scale(0.9); }
-            100% { opacity: 1; transform: scale(1); }
+        .recap-box h2 { margin: 0 0 10px 0; color: #115e59; font-size: 24px; }
+
+        .btn-action-primary {
+            background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
+            color: white;
+            border: none;
+            padding: 14px 25px;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 10px;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 10px;
         }
+
+        .btn-action-pdf {
+            background: linear-gradient(135deg, #ef4444 0%, #b91c1c 100%);
+            color: white;
+            border: none;
+            padding: 14px 25px;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 10px;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 10px;
+            box-shadow: 0 4px 10px rgba(239, 68, 68, 0.4);
+        }
+
+        table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 14px; }
+        th, td { border: 1px solid #cbd5e1; padding: 12px; text-align: left; vertical-align: middle; }
+        th { background-color: #0284c7; color: white; }
+        tr:nth-child(even) { background-color: #f8fafc; }
+
+        .checkbox-cell { text-align: center; width: 40px; }
+        .checkbox-cell input[type="checkbox"] { width: 20px; height: 20px; cursor: pointer; accent-color: #0d9488; }
+        .completed-row { background-color: #ccfbf1 !important; color: #065f46; text-decoration: line-through; opacity: 0.85; }
+
+        .progress-bar-container { background: #e2e8f0; border-radius: 10px; height: 18px; width: 100%; margin-top: 15px; overflow: hidden; }
+        .progress-bar { background: linear-gradient(90deg, #0d9488 0%, #10b981 100%); height: 100%; width: 0%; transition: width 0.4s ease; }
+        .progress-text { font-size: 14px; font-weight: bold; color: #0f172a; margin-top: 8px; text-align: right; }
+
+        footer { text-align: center; margin-top: 40px; font-size: 13px; color: #fef3c7; border-top: 1px solid rgba(255,255,255,0.2); padding-top: 20px; }
+
+        /* ========================================================== */
+        /* STYLING KHUSUS CETAK / PDF (SESUAI DOKUMEN RESMI OBSERVASI) */
+        /* ========================================================== */
+        @media print {
+            body { background: white !important; color: black !important; filter: none !important; }
+            .brightness-panel, .nav-tabs, header, .card h3, .grid-section, .wheel-container, .spinner-input, .btn-action-primary, .btn-action-pdf, footer, #landing-page, #page-dashboard {
+                display: none !important;
+            }
+            #page-penilaian { display: block !important; padding: 0 !important; }
+            .card { box-shadow: none !important; border: none !important; padding: 0 !important; margin: 0 !important; background: white !important; }
+            .instrumen-table th { background-color: #cbd5e1 !important; color: black !important; -webkit-print-color-adjust: exact; }
+            .print-header { display: block !important; text-align: center; margin-bottom: 20px; }
+            .print-header h2 { font-size: 16pt; margin: 0 0 5px 0; text-transform: uppercase; }
+            .print-header h3 { font-size: 13pt; margin: 0; }
+        }
+        .print-header { display: none; }
     </style>
 </head>
 <body>
 
-    <!-- Panel Kontrol Kecerahan Layar Melayang -->
+    <!-- Panel Kontrol Kecerahan -->
     <div class="brightness-panel">
         <span>☀️ Kecerahan:</span>
         <input type="range" id="brightnessRange" min="0.5" max="1.3" step="0.05" value="1" oninput="adjustBrightness(this.value)">
@@ -499,120 +530,178 @@
             <p>Program BOSKIN Tahun 2026 | Balai Penjaminan Mutu Pendidikan (BPMP) Provinsi Sulawesi Tengah[cite: 251]</p>
         </header>
 
-        <div class="grid-section">
-            <!-- Panel Stopwatch / Pengatur Waktu Peerteaching -->
-            <div class="card" style="margin-bottom: 0;">
-                <h3>⏱️ Pengatur Waktu Peerteaching (20 Menit)</h3>
-                <p style="font-size: 13px; color: #64748b;">Kontrol durasi praktik mengajar per guru[cite: 253].</p>
-                <div class="timer-display" id="timer">20:00</div>
-                <div class="timer-controls">
-                    <button class="btn-action-timer btn-start" onclick="playTone(523.25, 0.08); startTimer()">Mulai</button>
-                    <button class="btn-action-timer btn-pause" onclick="playTone(440, 0.08); pauseTimer()">Jeda</button>
-                    <button class="btn-action-timer btn-reset" onclick="playTone(349.23, 0.08); resetTimer()">Reset</button>
-                </div>
-            </div>
-
-            <!-- Panel Tombol 3D Tautan Penting -->
-            <div class="card" style="margin-bottom: 0;">
-                <h3>🔗 Akses Tautan Kegiatan & Instrumen</h3>
-                <div class="btn-3d-container">
-                    <a href="https://drive.google.com/file/d/1qmzIg9EAT799E5BqhwW5dz4CAaDMeqa6/view?usp=sharing" target="_blank" class="btn-3d" onclick="playTone(700, 0.05)">
-                        📄 Format Observasi Microteaching (Lampiran 1)
-                        <div class="btn-3d-desc">Lembar penilaian praktik mengajar dan pemanfaatan PID[cite: 254, 255].</div>
-                    </a>
-                    <a href="https://s.id/zPU26" target="_blank" class="btn-3d" onclick="playTone(700, 0.05)">
-                        📋 Panduan 16 Indikator Observasi (Lampiran 3)
-                        <div class="btn-3d-desc">Petunjuk teknis pengisian lembar observasi bagi observer[cite: 254].</div>
-                    </a>
-                    <a href="https://sites.google.com/dikbud.belajar.id/evadir-pid/pid" target="_blank" class="btn-3d" onclick="playTone(700, 0.05)">
-                        💻 Tautan Evaluasi Diri Peserta (Lampiran 2)
-                        <div class="btn-3d-desc">Wajib diisi oleh guru setelah sesi praktik dan penguatan[cite: 254].</div>
-                    </a>
-                    <a href="https://forms.gle/Fi3ZoeEr63NNM5M57" target="_blank" class="btn-3d" onclick="playTone(700, 0.05)">
-                        📝 Link Tindak Lanjut Pendampingan
-                        <div class="btn-3d-desc">Formulir pelaporan tindak lanjut perbaikan pembelajaran[cite: 254].</div>
-                    </a>
-                </div>
-            </div>
+        <div class="nav-tabs">
+            <button class="nav-btn active" onclick="switchPage('dashboard', this)">📋 Dashboard & Moderasi</button>
+            <button class="nav-btn" onclick="switchPage('penilaian', this)">⭐ Penilaian Real-Time (Peer Teaching)</button>
         </div>
 
-        <!-- Panel Spinner Lingkaran (Wheel Spinner) & Hapus Otomatis -->
-        <div class="card">
-            <h3>🎡 Roda Spinner Undian Penampil (Peerteaching)</h3>
-            <p style="font-size: 13px; color: #64748b; margin-bottom: 10px;">Nama yang sudah terpilih akan <strong>otomatis terhapus</strong> dari daftar undian agar tidak terpilih kembali.</p>
-            <textarea id="participantInput" class="spinner-input" rows="3" placeholder="Masukkan nama peserta (satu nama per baris)...">Bapak Ahmad, S.Pd
+        <!-- HALAMAN 1: DASHBOARD & MODERASI -->
+        <div id="page-dashboard" class="page-section active-page">
+            <div class="grid-section">
+                <div class="card" style="margin-bottom: 0;">
+                    <h3>⏱️ Pengatur Waktu Peerteaching (20 Menit)</h3>
+                    <p style="font-size: 13px; color: #64748b;">Kontrol durasi praktik mengajar per guru[cite: 253].</p>
+                    <div class="timer-display" id="timer">20:00</div>
+                    <div class="timer-controls">
+                        <button class="btn-action-timer btn-start" onclick="playTone(523.25, 0.08); startTimer()">Mulai</button>
+                        <button class="btn-action-timer btn-pause" onclick="playTone(440, 0.08); pauseTimer()">Jeda</button>
+                        <button class="btn-action-timer btn-reset" onclick="playTone(349.23, 0.08); resetTimer()">Reset</button>
+                    </div>
+                </div>
+
+                <div class="card" style="margin-bottom: 0;">
+                    <h3>🔗 Akses Tautan Kegiatan & Instrumen</h3>
+                    <div class="btn-3d-container">
+                        <a href="https://s.id/kd6J7" target="_blank" class="btn-3d" onclick="playTone(700, 0.05)">
+                            📄 Format Observasi Microteaching (Lampiran 1)
+                            <div class="btn-3d-desc">Lembar penilaian praktik mengajar dan pemanfaatan PID[cite: 254, 255].</div>
+                        </a>
+                        <a href="https://s.id/zPU26" target="_blank" class="btn-3d" onclick="playTone(700, 0.05)">
+                            📋 Panduan 16 Indikator Observasi (Lampiran 3)
+                            <div class="btn-3d-desc">Petunjuk teknis pengisian lembar observasi bagi observer[cite: 254].</div>
+                        </a>
+                        <a href="https://sites.google.com/dikbud.belajar.id/evadir-pid/pid" target="_blank" class="btn-3d" onclick="playTone(700, 0.05)">
+                            💻 Tautan Evaluasi Diri Peserta (Lampiran 2)
+                            <div class="btn-3d-desc">Wajib diisi oleh guru setelah sesi praktik dan penguatan[cite: 254].</div>
+                        </a>
+                        <a href="https://forms.gle/Fi3ZoeEr63NNM5M57" target="_blank" class="btn-3d" onclick="playTone(700, 0.05)">
+                            📝 Link Tindak Lanjut Pendampingan
+                            <div class="btn-3d-desc">Formulir pelaporan tindak lanjut perbaikan pembelajaran[cite: 254].</div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>🎡 Roda Spinner Undian Penampil (Peerteaching)</h3>
+                <p style="font-size: 13px; color: #64748b; margin-bottom: 10px;">Nama yang sudah terpilih akan <strong>otomatis terhapus</strong> dari daftar undian agar tidak terpilih kembali.</p>
+                <textarea id="participantInput" class="spinner-input" rows="3">Bapak Ahmad, S.Pd
 Ibu Siti Aminah, S.Pd
 Bapak Rian Hidayat, S.Pd
 Ibu Dewi Lestari, S.Pd</textarea>
-            
-            <div class="wheel-container">
-                <div class="wheel-pointer"></div>
-                <div class="wheel" id="wheel"></div>
-                <div class="wheel-center"></div>
+                
+                <div class="wheel-container">
+                    <div class="wheel-pointer"></div>
+                    <div class="wheel" id="wheel"></div>
+                    <div class="wheel-center"></div>
+                </div>
+
+                <div class="spinner-result" id="spinnerResult">Tekan Tombol Putar di Bawah!</div>
+                <button class="btn-action-spinner btn-spin" onclick="spinWheel()">🎡 Putar Roda Spinner!</button>
             </div>
 
-            <div class="spinner-result" id="spinnerResult">Tekan Tombol Putar di Bawah!</div>
-            
-            <button class="btn-action-spinner btn-spin" onclick="spinWheel()">🎡 Putar Roda Spinner!</button>
+            <div class="card">
+                <h3>📋 Alur Kegiatan & Progress Penyelesaian (Total 180 Menit)</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th class="checkbox-cell">Selesai</th>
+                            <th>Tahap & Kegiatan Utama</th>
+                            <th>Alokasi Waktu</th>
+                        </tr>
+                    </thead>
+                    <tbody id="progress-table">
+                        <tr id="row-1"><td class="checkbox-cell"><input type="checkbox" onchange="updateProgress()"></td><td><strong>Tahap 1: Pembukaan</strong></td><td><strong>20 Menit</strong></td></tr>
+                        <tr id="row-2"><td class="checkbox-cell"><input type="checkbox" onchange="updateProgress()"></td><td><strong>Tahap 2: Peerteaching - Penampil 1</strong></td><td>20 Menit</td></tr>
+                        <tr id="row-3"><td class="checkbox-cell"><input type="checkbox" onchange="updateProgress()"></td><td><strong>Tahap 2: Peerteaching - Penampil 2</strong></td><td>20 Menit</td></tr>
+                        <tr id="row-4"><td class="checkbox-cell"><input type="checkbox" onchange="updateProgress()"></td><td><strong>Tahap 2: Peerteaching - Penampil 3</strong></td><td>20 Menit</td></tr>
+                        <tr id="row-5"><td class="checkbox-cell"><input type="checkbox" onchange="updateProgress()"></td><td><strong>Tahap 2: Peerteaching - Penampil 4</strong></td><td>20 Menit</td></tr>
+                        <tr id="row-6"><td class="checkbox-cell"><input type="checkbox" onchange="updateProgress()"></td><td><strong>Tahap 3: Sesi Komentar & Umpan Balik</strong></td><td>40 Menit</td></tr>
+                        <tr id="row-7"><td class="checkbox-cell"><input type="checkbox" onchange="updateProgress()"></td><td><strong>Tahap 4: Penguatan & Evaluasi Diri</strong></td><td>40 Menit</td></tr>
+                    </tbody>
+                </table>
+                <div class="progress-bar-container"><div class="progress-bar" id="progressBar"></div></div>
+                <div class="progress-text" id="progressText">Progress Selesai: 0 dari 7 Tahap (0%)</div>
+            </div>
         </div>
 
-        <!-- Panel Progress & Alur Kegiatan Lengkap (180 Menit) -->
-        <div class="card">
-            <h3>📋 Alur Kegiatan & Progress Penyelesaian (Total 180 Menit)</h3>
-            <p style="font-size: 13px; color: #64748b; margin-bottom: 15px;">Centang kotak di kolom "Selesai" untuk memperbarui status dan progress kegiatan secara real-time.</p>
-            
-            <table>
-                <thead>
-                    <tr>
-                        <th class="checkbox-cell">Selesai</th>
-                        <th>Tahap & Kegiatan Utama</th>
-                        <th>Alokasi Waktu</th>
-                    </tr>
-                </thead>
-                <tbody id="progress-table">
-                    <tr id="row-1">
-                        <td class="checkbox-cell"><input type="checkbox" onchange="playTone(800, 0.05); updateProgress()"></td>
-                        <td><strong>Tahap 1: Pembukaan</strong><br><span style="font-size:12px; color:#475569;">Penjelasan tujuan, tata tertib, mekanisme kegiatan, serta penunjukan perekam & timekeeper[cite: 253].</span></td>
-                        <td><strong>20 Menit</strong></td>
-                    </tr>
-                    <tr id="row-2">
-                        <td class="checkbox-cell"><input type="checkbox" onchange="playTone(800, 0.05); updateProgress()"></td>
-                        <td><strong>Tahap 2: Praktik Mengajar Sejawat (Peerteaching) - Penampil 1</strong><br><span style="font-size:12px; color:#475569;">Praktik pembelajaran mengintegrasikan PID & Multimedia Interaktif[cite: 251, 253].</span></td>
-                        <td>20 Menit</td>
-                    </tr>
-                    <tr id="row-3">
-                        <td class="checkbox-cell"><input type="checkbox" onchange="playTone(800, 0.05); updateProgress()"></td>
-                        <td><strong>Tahap 2: Praktik Mengajar Sejawat (Peerteaching) - Penampil 2</strong><br><span style="font-size:12px; color:#475569;">Praktik mengajar bergilir & pengisian lembar observasi oleh observer[cite: 253, 254].</span></td>
-                        <td>20 Menit</td>
-                    </tr>
-                    <tr id="row-4">
-                        <td class="checkbox-cell"><input type="checkbox" onchange="playTone(800, 0.05); updateProgress()"></td>
-                        <td><strong>Tahap 2: Praktik Mengajar Sejawat (Peerteaching) - Penampil 3</strong><br><span style="font-size:12px; color:#475569;">Praktik mengajar bergilir & pencatatan bukti pengamatan[cite: 253, 254].</span></td>
-                        <td>20 Menit</td>
-                    </tr>
-                    <tr id="row-5">
-                        <td class="checkbox-cell"><input type="checkbox" onchange="updateProgress()"></td>
-                        <td><strong>Tahap 2: Praktik Mengajar Sejawat (Peerteaching) - Penampil 4</strong><br><span style="font-size:12px; color:#475569;">Sesi praktik mengajar penampil terakhir[cite: 253].</span></td>
-                        <td>20 Menit</td>
-                    </tr>
-                    <tr id="row-6">
-                        <td class="checkbox-cell"><input type="checkbox" onchange="updateProgress()"></td>
-                        <td><strong>Tahap 3: Sesi Komentar & Umpan Balik</strong><br><span style="font-size:12px; color:#475569;">Moderasi tanggapan lisan (praktik baik, perbaikan, saran) secara objektif dan santun[cite: 254].</span></td>
-                        <td>40 Menit</td>
-                    </tr>
-                    <tr id="row-7">
-                        <td class="checkbox-cell"><input type="checkbox" onchange="updateProgress()"></td>
-                        <td><strong>Tahap 4: Penguatan & Evaluasi Diri</strong><br><span style="font-size:12px; color:#475569;">Penguatan pendamping, pengisian evaluasi diri via link, & rencana tindak lanjut[cite: 254].</span></td>
-                        <td>40 Menit</td>
-                    </tr>
-                </tbody>
-            </table>
+        <!-- HALAMAN 2: PENILAIAN REAL-TIME PEER TEACHING -->
+        <div id="page-penilaian" class="page-section">
+            <div class="card">
+                <!-- Header Cetak Dokumen Resmi -->
+                <div class="print-header">
+                    <h2>Peer Teaching Pembelajaran Mendalam Berbasis Digital</h2>
+                    <h3>LEMBAR OBSERVASI</h3>
+                </div>
 
-            <!-- Progress Bar -->
-            <div class="progress-bar-container">
-                <div class="progress-bar" id="progressBar"></div>
+                <h3>⭐ Lembar Observasi Peer Teaching Real-Time (16 Indikator)</h3>
+                <p style="font-size: 13px; color: #64748b;">Kriteria Skor: 4 = Sangat Baik, 3 = Baik, 2 = Cukup, 1 = Perlu Perbaikan[cite: 257].</p>
+
+                <div class="grid-section" style="margin-top: 15px;">
+                    <div><label style="font-weight:600; font-size:13px;">Nama Observer:</label><input type="text" id="obsNama" class="form-input" placeholder="Nama pengamat..."></div>
+                    <div><label style="font-weight:600; font-size:13px;">Nama Guru yang Diobservasi:</label><input type="text" id="obsGuru" class="form-input" placeholder="Nama guru penampil..."></div>
+                </div>
+                <div class="grid-section">
+                    <div><label style="font-weight:600; font-size:13px;">Materi Pembelajaran:</label><input type="text" id="obsMateri" class="form-input" placeholder="Topik materi..."></div>
+                    <div><label style="font-weight:600; font-size:13px;">Instansi / Sekolah:</label><input type="text" id="obsInstansi" class="form-input" placeholder="Asal sekolah..."></div>
+                </div>
+
+                <table class="instrumen-table" id="assessmentTable">
+                    <thead>
+                        <tr>
+                            <th style="width: 5%;">No</th>
+                            <th style="width: 65%;">Aspek / Kemampuan Indikator</th>
+                            <th style="width: 7%;">1</th>
+                            <th style="width: 7%;">2</th>
+                            <th style="width: 7%;">3</th>
+                            <th style="width: 7%;">4</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr style="background:#e0f2fe; font-weight:bold;"><td colspan="6">A. Proses Pembelajaran</td></tr>
+                        <tr><td>1</td><td>Guru menyampaikan tujuan pembelajaran secara jelas dan relevan[cite: 258].</td><td class="score-radio"><input type="radio" name="q1" value="1" onchange="calculateScore()"></td><td class="score-radio"><input type="radio" name="q1" value="2" onchange="calculateScore()"></td><td class="score-radio"><input type="radio" name="q1" value="3" onchange="calculateScore()"></td><td class="score-radio"><input type="radio" name="q1" value="4" onchange="calculateScore()"></td></tr>
+                        <tr><td>2</td><td>Materi pembelajaran dikaitkan dengan situasi nyata yang mungkin dihadapi peserta di kelas[cite: 258].</td><td class="score-radio"><input type="radio" name="q2" value="1" onchange="calculateScore()"></td><td class="score-radio"><input type="radio" name="q2" value="2" onchange="calculateScore()"></td><td class="score-radio"><input type="radio" name="q2" value="3" onchange="calculateScore()"></td><td class="score-radio"><input type="radio" name="q2" value="4" onchange="calculateScore()"></td></tr>
+                        <tr><td>3</td><td>Guru memberikan pertanyaan pemantik yang mendorong berpikir kritis dan reflektif[cite: 258].</td><td class="score-radio"><input type="radio" name="q3" value="1" onchange="calculateScore()"></td><td class="score-radio"><input type="radio" name="q3" value="2" onchange="calculateScore()"></td><td class="score-radio"><input type="radio" name="q3" value="3" onchange="calculateScore()"></td><td class="score-radio"><input type="radio" name="q3" value="4" onchange="calculateScore()"></td></tr>
+                        <tr><td>4</td><td>Guru memberi ruang diskusi, kolaborasi, dan pemecahan masalah antar peserta[cite: 258].</td><td class="score-radio"><input type="radio" name="q4" value="1" onchange="calculateScore()"></td><td class="score-radio"><input type="radio" name="q4" value="2" onchange="calculateScore()"></td><td class="score-radio"><input type="radio" name="q4" value="3" onchange="calculateScore()"></td><td class="score-radio"><input type="radio" name="q4" value="4" onchange="calculateScore()"></td></tr>
+                        <tr><td>5</td><td>Guru melaksanakan tahapan pengalaman pembelajaran mendalam (memahami, mengaplikasi, merefleksi)[cite: 258].</td><td class="score-radio"><input type="radio" name="q5" value="1" onchange="calculateScore()"></td><td class="score-radio"><input type="radio" name="q5" value="2" onchange="calculateScore()"></td><td class="score-radio"><input type="radio" name="q5" value="3" onchange="calculateScore()"></td><td class="score-radio"><input type="radio" name="q5" value="4" onchange="calculateScore()"></td></tr>
+                        <tr><td>6</td><td>Praktek pembelajaran menunjukkan prinsip pembelajaran mendalam (berkesadaran, bermakna, menggembirakan)[cite: 258].</td><td class="score-radio"><input type="radio" name="q6" value="1" onchange="calculateScore()"></td><td class="score-radio"><input type="radio" name="q6" value="2" onchange="calculateScore()"></td><td class="score-radio"><input type="radio" name="q6" value="3" onchange="calculateScore()"></td><td class="score-radio"><input type="radio" name="q6" value="4" onchange="calculateScore()"></td></tr>
+
+                        <tr style="background:#e0f2fe; font-weight:bold;"><td colspan="6">B. Integrasi Pemanfaatan Perangkat Digital</td></tr>
+                        <tr><td>7</td><td>PID digunakan untuk menampilkan materi simulasi dengan jelas, menarik, dan mudah dipahami[cite: 258].</td><td class="score-radio"><input type="radio" name="q7" value="1" onchange="calculateScore()"></td><td class="score-radio"><input type="radio" name="q7" value="2" onchange="calculateScore()"></td><td class="score-radio"><input type="radio" name="q7" value="3" onchange="calculateScore()"></td><td class="score-radio"><input type="radio" name="q7" value="4" onchange="calculateScore()"></td></tr>
+                        <tr><td>8</td><td>Laptop digunakan sebagai alat bantu utama dalam penyampaian materi atau media pembelajaran[cite: 258].</td><td class="score-radio"><input type="radio" name="q8" value="1" onchange="calculateScore()"></td><td class="score-radio"><input type="radio" name="q8" value="2" onchange="calculateScore()"></td><td class="score-radio"><input type="radio" name="q8" value="3" onchange="calculateScore()"></td><td class="score-radio"><input type="radio" name="q8" value="4" onchange="calculateScore()"></td></tr>
+                        <tr><td>9</td><td>Penggunaan PID dan laptop saling terkoneksi dan mendukung tujuan simulasi secara nyata[cite: 258].</td><td class="score-radio"><input type="radio" name="q9" value="1" onchange="calculateScore()"></td><td class="score-radio"><input type="radio" name="q9" value="2" onchange="calculateScore()"></td><td class="score-radio"><input type="radio" name="q9" value="3" onchange="calculateScore()"></td><td class="score-radio"><input type="radio" name="q9" value="4" onchange="calculateScore()"></td></tr>
+                        <tr><td>10</td><td>Guru mampu mengoperasikan perangkat digital dengan lancar[cite: 258].</td><td class="score-radio"><input type="radio" name="q10" value="1" onchange="calculateScore()"></td><td class="score-radio"><input type="radio" name="q10" value="2" onchange="calculateScore()"></td><td class="score-radio"><input type="radio" name="q10" value="3" onchange="calculateScore()"></td><td class="score-radio"><input type="radio" name="q10" value="4" onchange="calculateScore()"></td></tr>
+                        <tr><td>11</td><td>Guru Menggunakan Ruang Murid atau MPI lainnya relevan dengan materi simulasi[cite: 258].</td><td class="score-radio"><input type="radio" name="q11" value="1" onchange="calculateScore()"></td><td class="score-radio"><input type="radio" name="q11" value="2" onchange="calculateScore()"></td><td class="score-radio"><input type="radio" name="q11" value="3" onchange="calculateScore()"></td><td class="score-radio"><input type="radio" name="q11" value="4" onchange="calculateScore()"></td></tr>
+                        <tr><td>12</td><td>Penggunaan perangkat digital meningkatkan keterlibatan dan interaksi peserta[cite: 258].</td><td class="score-radio"><input type="radio" name="q12" value="1" onchange="calculateScore()"></td><td class="score-radio"><input type="radio" name="q12" value="2" onchange="calculateScore()"></td><td class="score-radio"><input type="radio" name="q12" value="3" onchange="calculateScore()"></td><td class="score-radio"><input type="radio" name="q12" value="4" onchange="calculateScore()"></td></tr>
+                        <tr><td>13</td><td>Murid berinteraksi dengan PID, bukan hanya melihat layar[cite: 258].</td><td class="score-radio"><input type="radio" name="q13" value="1" onchange="calculateScore()"></td><td class="score-radio"><input type="radio" name="q13" value="2" onchange="calculateScore()"></td><td class="score-radio"><input type="radio" name="q13" value="3" onchange="calculateScore()"></td><td class="score-radio"><input type="radio" name="q13" value="4" onchange="calculateScore()"></td></tr>
+                        <tr><td>14</td><td>PID membantu memfasilitasi murid dalam pengalaman belajar memahami[cite: 259].</td><td class="score-radio"><input type="radio" name="q14" value="1" onchange="calculateScore()"></td><td class="score-radio"><input type="radio" name="q14" value="2" onchange="calculateScore()"></td><td class="score-radio"><input type="radio" name="q14" value="3" onchange="calculateScore()"></td><td class="score-radio"><input type="radio" name="q14" value="4" onchange="calculateScore()"></td></tr>
+                        <tr><td>15</td><td>PID membantu memfasilitasi murid dalam pengalaman belajar mengaplikasi[cite: 259].</td><td class="score-radio"><input type="radio" name="q15" value="1" onchange="calculateScore()"></td><td class="score-radio"><input type="radio" name="q15" value="2" onchange="calculateScore()"></td><td class="score-radio"><input type="radio" name="q15" value="3" onchange="calculateScore()"></td><td class="score-radio"><input type="radio" name="q15" value="4" onchange="calculateScore()"></td></tr>
+                        <tr><td>16</td><td>PID membantu memfasilitasi murid dalam pengalaman belajar merefleksi[cite: 259].</td><td class="score-radio"><input type="radio" name="q16" value="1" onchange="calculateScore()"></td><td class="score-radio"><input type="radio" name="q16" value="2" onchange="calculateScore()"></td><td class="score-radio"><input type="radio" name="q16" value="3" onchange="calculateScore()"></td><td class="score-radio"><input type="radio" name="q16" value="4" onchange="calculateScore()"></td></tr>
+                    </tbody>
+                </table>
+
+                <div class="grid-section" style="margin-top: 20px;">
+                    <div>
+                        <label style="font-weight:600; font-size:13px;">Catatan Hasil Pengamatan:</label>
+                        <textarea id="obsCatatan" class="form-input" rows="3" placeholder="Temuan penting, apresiasi..." oninput="updateLivePreview()"></textarea>
+                    </div>
+                    <div>
+                        <label style="font-weight:600; font-size:13px;">Saran Perbaikan:</label>
+                        <textarea id="obsSaran" class="form-input" rows="3" placeholder="Rekomendasi perbaikan..." oninput="updateLivePreview()"></textarea>
+                    </div>
+                </div>
+
+                <div class="feedback-preview-card">
+                    <h4>📝 Live Preview Umpan Balik & Catatan Pengamatan</h4>
+                    <div class="feedback-section-box catatan-box">
+                        <span class="feedback-label">Catatan Hasil Pengamatan:</span>
+                        <div class="feedback-content" id="previewCatatan">(Belum ada catatan...)</div>
+                    </div>
+                    <div class="feedback-section-box saran-box">
+                        <span class="feedback-label">Saran Perbaikan:</span>
+                        <div class="feedback-content" id="previewSaran">(Belum ada saran...)</div>
+                    </div>
+                </div>
+
+                <div class="recap-box">
+                    <h2>📊 Rekapitulasi Hasil Penilaian</h2>
+                    <p style="font-size: 16px; margin: 5px 0;">Total Perolehan Skor: <strong id="totalScore">0</strong> / 64</p>
+                    <p style="font-size: 20px; font-weight: bold; color: #0d9488; margin: 10px 0;">Nilai Akhir (Konversi): <span id="finalGrade">0</span> / 100</p>
+                    
+                    <button class="btn-action-primary" onclick="copyAssessmentReport()">📋 Salin Teks Laporan</button>
+                    <button class="btn-action-pdf" onclick="downloadPDFReport()">📥 Unduh / Cetak Laporan PDF</button>
+                </div>
             </div>
-            <div class="progress-text" id="progressText">Progress Selesai: 0 dari 7 Tahap (0%)</div>
         </div>
 
         <footer>
@@ -621,99 +710,119 @@ Ibu Dewi Lestari, S.Pd</textarea>
     </div>
 
     <script>
-        let currentRotation = 0;
+        function switchPage(pageId, btnElement) {
+            document.querySelectorAll('.page-section').forEach(sec => sec.classList.remove('active-page'));
+            document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
+            document.getElementById(`page-${pageId}`).classList.add('active-page');
+            btnElement.classList.add('active');
+            playTone(500, 0.05);
+        }
 
-        // Inisialisasi Tampilan Roda Saat Memuat Halaman
-        window.onload = function() {
-            createWheelSegments();
-        };
+        function calculateScore() {
+            let total = 0;
+            for (let i = 1; i <= 16; i++) {
+                const radios = document.getElementsByName(`q${i}`);
+                for (let r of radios) {
+                    if (r.checked) total += parseInt(r.value);
+                }
+            }
+            document.getElementById('totalScore').textContent = total;
+            const final = (total / 64) * 100;
+            document.getElementById('finalGrade').textContent = final.toFixed(2);
+        }
+
+        function updateLivePreview() {
+            const catatan = document.getElementById('obsCatatan').value.trim();
+            const saran = document.getElementById('obsSaran').value.trim();
+            document.getElementById('previewCatatan').textContent = catatan || '(Belum ada catatan...)';
+            document.getElementById('previewSaran').textContent = saran || '(Belum ada saran...)';
+        }
+
+        function generateReportText() {
+            const namaObs = document.getElementById('obsNama').value || '(Belum diisi)';
+            const namaGuru = document.getElementById('obsGuru').value || '(Belum diisi)';
+            const materi = document.getElementById('obsMateri').value || '(Belum diisi)';
+            const instansi = document.getElementById('obsInstansi').value || '(Belum diisi)';
+            const total = document.getElementById('totalScore').textContent;
+            const final = document.getElementById('finalGrade').textContent;
+            const catatan = document.getElementById('obsCatatan').value || '-';
+            const saran = document.getElementById('obsSaran').value || '-';
+
+            return `==================================================\n` +
+                   `REKAPITULASI PENILAIAN PEER TEACHING BOSKIN 2026\n` +
+                   `==================================================\n` +
+                   `• Observer           : ${namaObs}\n` +
+                   `• Guru Diobservasi   : ${namaGuru}\n` +
+                   `• Materi Pembelajaran: ${materi}\n` +
+                   `• Instansi           : ${instansi}\n\n` +
+                   `HASIL PENILAIAN:\n` +
+                   `• Total Perolehan Skor  : ${total} / 64\n` +
+                   `• Nilai Akhir (Konversi): ${final} / 100\n\n` +
+                   `CATATAN HASIL PENGAMATAN:\n${catatan}\n\n` +
+                   `SARAN PERBAIKAN:\n${saran}\n` +
+                   `==================================================`;
+        }
+
+        function copyAssessmentReport() {
+            const report = generateReportText();
+            navigator.clipboard.writeText(report).then(() => {
+                alert('Laporan berhasil disalin ke clipboard!');
+                playTone(880, 0.2);
+            });
+        }
+
+        // Fungsi Unduh / Cetak Laporan PDF
+        function downloadPDFReport() {
+            playTone(900, 0.2);
+            window.print();
+        }
+
+        let currentRotation = 0;
+        window.onload = function() { createWheelSegments(); };
 
         function getParticipants() {
             const textarea = document.getElementById('participantInput');
             return textarea.value.split('\n').map(n => n.trim()).filter(n => n.length > 0);
         }
 
-        // Membuat Segmen Warna pada Roda Spinner
         function createWheelSegments() {
             const wheel = document.getElementById('wheel');
             const names = getParticipants();
             wheel.innerHTML = '';
-
-            if (names.length === 0) {
-                wheel.style.background = '#cbd5e1';
-                return;
-            }
-
+            if (names.length === 0) { wheel.style.background = '#cbd5e1'; return; }
             const sliceAngle = 360 / names.length;
             const colors = ['#0284c7', '#0d9488', '#f59e0b', '#8b5cf6', '#ec4899', '#10b981'];
-            
             let gradientStops = [];
             names.forEach((name, index) => {
                 const start = index * sliceAngle;
                 const end = (index + 1) * sliceAngle;
-                const color = colors[index % colors.length];
-                gradientStops.push(`${color} ${start}deg ${end}deg`);
+                gradientStops.push(`${colors[index % colors.length]} ${start}deg ${end}deg`);
             });
-
             wheel.style.background = `conic-gradient(${gradientStops.join(', ')})`;
         }
 
-        // Fungsi Putar Roda & Hapus Otomatis Nama Terpilih
         function spinWheel() {
             const textarea = document.getElementById('participantInput');
             const resultDisplay = document.getElementById('spinnerResult');
             let names = getParticipants();
-
-            if (names.length === 0) {
-                alert('Semua peserta sudah terpilih atau daftar nama kosong!');
-                resultDisplay.textContent = 'Semua peserta sudah selesai tampil!';
-                return;
-            }
-
+            if (names.length === 0) { alert('Daftar nama kosong!'); return; }
             playTone(650, 0.1);
             createWheelSegments();
-
-            // Tentukan pemenang secara acak
             const winningIndex = Math.floor(Math.random() * names.length);
             const winningName = names[winningIndex];
-
-            // Hitung rotasi roda agar berhenti di segmen pemenang
             const sliceAngle = 360 / names.length;
             const targetAngle = 360 - (winningIndex * sliceAngle + sliceAngle / 2);
-            const extraSpins = 5 * 360; // Berputar 5 kali putaran penuh
-            currentRotation += extraSpins + (targetAngle - (currentRotation % 360));
-
-            const wheel = document.getElementById('wheel');
-            wheel.style.transform = `rotate(${currentRotation}deg)`;
-
-            // Suara putaran roda
-            let tickCount = 0;
-            const tickInterval = setInterval(() => {
-                playTone(300 + (tickCount * 20), 0.03);
-                tickCount++;
-                if(tickCount > 15) clearInterval(tickInterval);
-            }, 200);
-
-            // Setelah animasi putar selesai (4 detik)
+            currentRotation += (5 * 360) + (targetAngle - (currentRotation % 360));
+            document.getElementById('wheel').style.transform = `rotate(${currentRotation}deg)`;
             setTimeout(() => {
                 playTone(880, 0.4);
                 resultDisplay.innerHTML = `🎉 Terpilih Tampil: <span style="color:#0d9488">${winningName}</span> 🎉`;
-
-                // Hapus nama yang sudah terpilih dari textarea secara otomatis
                 names.splice(winningIndex, 1);
                 textarea.value = names.join('\n');
-
-                // Perbarui roda dengan sisa peserta
                 createWheelSegments();
             }, 4000);
         }
 
-        // Update roda otomatis ketika isi textarea diubah manual
-        document.getElementById('participantInput').addEventListener('input', function() {
-            createWheelSegments();
-        });
-
-        // Web Audio API untuk Nada Tombol
         function playTone(frequency, duration) {
             try {
                 const AudioContext = window.AudioContext || window.webkitAudioContext;
@@ -721,111 +830,52 @@ Ibu Dewi Lestari, S.Pd</textarea>
                 const ctx = new AudioContext();
                 const osc = ctx.createOscillator();
                 const gain = ctx.createGain();
-                
-                osc.type = 'sine';
                 osc.frequency.value = frequency;
-                
                 gain.gain.setValueAtTime(0.1, ctx.currentTime);
                 gain.gain.exponentialRampToValueAtTime(0.00001, ctx.currentTime + duration);
-                
-                osc.connect(gain);
-                gain.connect(ctx.destination);
-                
-                osc.start();
-                osc.stop(ctx.currentTime + duration);
+                osc.connect(gain); gain.connect(ctx.destination);
+                osc.start(); osc.stop(ctx.currentTime + duration);
             } catch (e) {}
         }
 
-        // Pengatur Kecerahan Layar
-        function adjustBrightness(value) {
-            document.body.style.setProperty('--brightness-filter', `brightness(${value})`);
-        }
-
-        // Transisi dari Landing Page ke Dashboard
+        function adjustBrightness(value) { document.body.style.setProperty('--brightness-filter', `brightness(${value})`); }
         function enterDashboard() {
-            const landing = document.getElementById('landing-page');
-            const dashboard = document.getElementById('main-dashboard');
-
-            landing.style.opacity = '0';
-            landing.style.transform = 'scale(1.05)';
-            
+            document.getElementById('landing-page').style.opacity = '0';
             setTimeout(() => {
-                landing.style.display = 'none';
-                dashboard.style.display = 'block';
-                setTimeout(() => {
-                    dashboard.style.opacity = '1';
-                }, 50);
+                document.getElementById('landing-page').style.display = 'none';
+                document.getElementById('main-dashboard').style.display = 'block';
+                setTimeout(() => document.getElementById('main-dashboard').style.opacity = '1', 50);
             }, 600);
         }
 
-        // Fungsi Kalkulasi Progress Selesai / Belum Selesai
         function updateProgress() {
             const checkboxes = document.querySelectorAll('#progress-table input[type="checkbox"]');
             let completedCount = 0;
-            const totalCount = checkboxes.length;
-
-            checkboxes.forEach((checkbox, index) => {
-                const row = document.getElementById(`row-${index + 1}`);
-                if (checkbox.checked) {
-                    completedCount++;
-                    row.classList.add('completed-row');
-                } else {
-                    row.classList.remove('completed-row');
-                }
+            checkboxes.forEach((cb, i) => {
+                const row = document.getElementById(`row-${i+1}`);
+                if (cb.checked) { completedCount++; row.classList.add('completed-row'); }
+                else { row.classList.remove('completed-row'); }
             });
-
-            const percentage = Math.round((completedCount / totalCount) * 100);
-            const progressBar = document.getElementById('progressBar');
-            const progressText = document.getElementById('progressText');
-
-            progressBar.style.width = `${percentage}%`;
-            progressText.textContent = `Progress Selesai: ${completedCount} dari ${totalCount} Tahap (${percentage}%)`;
+            const pct = Math.round((completedCount / checkboxes.length) * 100);
+            document.getElementById('progressBar').style.width = `${pct}%`;
+            document.getElementById('progressText').textContent = `Progress Selesai: ${completedCount} dari ${checkboxes.length} Tahap (${pct}%)`;
         }
 
-        // Logika Pengatur Waktu (Timer) 20 Menit
-        let timerInterval;
-        let timeLeft = 20 * 60; // 20 menit dalam detik
-        const timerDisplay = document.getElementById('timer');
-
+        let timerInterval, timeLeft = 20 * 60;
         function updateTimerDisplay() {
-            const minutes = Math.floor(timeLeft / 60);
-            const seconds = timeLeft % 60;
-            timerDisplay.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-            
-            if (timeLeft <= 120) {
-                timerDisplay.style.color = 'var(--danger)';
-            } else {
-                timerDisplay.style.color = '#0369a1';
-            }
+            const m = Math.floor(timeLeft / 60), s = timeLeft % 60;
+            document.getElementById('timer').textContent = `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
+            document.getElementById('timer').style.color = timeLeft <= 120 ? 'var(--danger)' : '#0369a1';
         }
-
         function startTimer() {
             if (timerInterval) return;
             timerInterval = setInterval(() => {
-                if (timeLeft > 0) {
-                    timeLeft--;
-                    updateTimerDisplay();
-                } else {
-                    clearInterval(timerInterval);
-                    timerInterval = null;
-                    playTone(300, 0.5);
-                    alert('Waktu praktik mengajar 20 menit telah selesai! Silakan beralih ke sesi berikutnya.');
-                }
+                if (timeLeft > 0) { timeLeft--; updateTimerDisplay(); }
+                else { clearInterval(timerInterval); timerInterval = null; playTone(300, 0.5); alert('Waktu 20 menit selesai!'); }
             }, 1000);
         }
-
-        function pauseTimer() {
-            clearInterval(timerInterval);
-            timerInterval = null;
-        }
-
-        function resetTimer() {
-            clearInterval(timerInterval);
-            timerInterval = null;
-            timeLeft = 20 * 60;
-            updateTimerDisplay();
-        }
-
+        function pauseTimer() { clearInterval(timerInterval); timerInterval = null; }
+        function resetTimer() { clearInterval(timerInterval); timerInterval = null; timeLeft = 20 * 60; updateTimerDisplay(); }
         updateTimerDisplay();
     </script>
 </body>
