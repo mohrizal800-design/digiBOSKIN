@@ -466,6 +466,20 @@
             box-shadow: 0 4px 10px rgba(239, 68, 68, 0.4);
         }
 
+        .btn-action-reset {
+            background: linear-gradient(135deg, #64748b 0%, #475569 100%);
+            color: white;
+            border: none;
+            padding: 14px 25px;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 10px;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 10px;
+            box-shadow: 0 4px 10px rgba(100, 116, 139, 0.4);
+        }
+
         table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 14px; }
         th, td { border: 1px solid #cbd5e1; padding: 12px; text-align: left; vertical-align: middle; }
         th { background-color: #0284c7; color: white; }
@@ -481,10 +495,12 @@
 
         footer { text-align: center; margin-top: 40px; font-size: 13px; color: #fef3c7; border-top: 1px solid rgba(255,255,255,0.2); padding-top: 20px; }
 
-        /* Styling Khusus Cetak / PDF */
+        /* ========================================================== */
+        /* STYLING KHUSUS CETAK / PDF (KOTAK INPUT DISEMBUNYIKAN) */
+        /* ========================================================== */
         @media print {
             body { background: white !important; color: black !important; filter: none !important; }
-            .brightness-panel, .nav-tabs, header, .card h3, .wheel-container, .spinner-input, .btn-action-primary, .btn-action-pdf, footer, #landing-page, #page-dashboard, p[style*="font-size: 13px"] {
+            .brightness-panel, .nav-tabs, header, .card h3, .wheel-container, .spinner-input, .btn-action-primary, .btn-action-pdf, .btn-action-reset, footer, #landing-page, #page-dashboard, p[style*="font-size: 13px"], .grid-section:has(#obsCatatan) {
                 display: none !important;
             }
             #page-penilaian { display: block !important; padding: 0 !important; }
@@ -502,8 +518,8 @@
                 font-weight: bold;
                 color: black !important;
             }
-            .grid-section { display: block !important; margin-bottom: 5px !important; }
-            .grid-section > div { margin-bottom: 5px !important; }
+            .grid-section:not(:has(#obsCatatan)) { display: block !important; margin-bottom: 5px !important; }
+            .grid-section:not(:has(#obsCatatan)) > div { margin-bottom: 5px !important; }
             .feedback-preview-card { display: block !important; border: 1px solid #333 !important; background: white !important; }
             .recap-box { background: #f8fafc !important; border: 1px solid #333 !important; }
         }
@@ -710,6 +726,7 @@ Ibu Dewi Lestari, S.Pd</textarea>
                     
                     <button class="btn-action-primary" onclick="copyAssessmentReport()">📋 Salin Teks Laporan</button>
                     <button class="btn-action-pdf" onclick="downloadPDFReport()">📥 Unduh / Cetak Laporan PDF</button>
+                    <button class="btn-action-reset" onclick="resetAssessmentForm()">🔄 Kosongkan Isian Form</button>
                 </div>
             </div>
         </div>
@@ -728,7 +745,6 @@ Ibu Dewi Lestari, S.Pd</textarea>
             playTone(500, 0.05);
         }
 
-        // Kalkulator Skor dengan Rentang Konversi 60-100 dan Predikat
         function calculateScore() {
             let total = 0;
             for (let i = 1; i <= 16; i++) {
@@ -739,29 +755,25 @@ Ibu Dewi Lestari, S.Pd</textarea>
             }
             document.getElementById('totalScore').textContent = total;
 
-            // Konversi proporsional dari skor max 64 ke rentang nilai 60 - 100
-            // Rumus: Nilai = 60 + (total / 64) * 40
             let finalGrade = 60;
             if (total > 0) {
                 finalGrade = 60 + (total / 64) * 40;
             }
             document.getElementById('finalGrade').textContent = finalGrade.toFixed(2);
 
-            // Penentuan Predikat Berdasarkan Rentang Nilai
-            // Cukup: 60 - 70 | Baik: 71 - 85 | Sangat Baik: 86 - 100
             let predikat = "-";
             let predikatColor = "#1e293b";
 
             if (total > 0) {
                 if (finalGrade >= 86) {
                     predikat = "Sangat Baik (86 - 100)";
-                    predikatColor = "#10b981"; // Hijau
+                    predikatColor = "#10b981";
                 } else if (finalGrade >= 71) {
                     predikat = "Baik (71 - 85)";
-                    predikatColor = "#0284c7"; // Biru
+                    predikatColor = "#0284c7";
                 } else {
                     predikat = "Cukup (60 - 70)";
-                    predikatColor = "#f59e0b"; // Kuning/Oranye
+                    predikatColor = "#f59e0b";
                 }
             }
 
@@ -775,6 +787,32 @@ Ibu Dewi Lestari, S.Pd</textarea>
             const saran = document.getElementById('obsSaran').value.trim();
             document.getElementById('previewCatatan').textContent = catatan || '(Belum ada catatan...)';
             document.getElementById('previewSaran').textContent = saran || '(Belum ada saran...)';
+        }
+
+        // Fungsi Tombol Kosongkan Isian Form Penilaian
+        function resetAssessmentForm() {
+            if (confirm('Apakah Anda yakin ingin mengosongkan seluruh isian penilaian untuk peserta baru?')) {
+                // Reset semua input teks identitas & catatan
+                document.getElementById('obsNama').value = '';
+                document.getElementById('obsGuru').value = '';
+                document.getElementById('obsMateri').value = '';
+                document.getElementById('obsInstansi').value = '';
+                document.getElementById('obsCatatan').value = '';
+                document.getElementById('obsSaran').value = '';
+
+                // Uncheck semua radio button skor
+                for (let i = 1; i <= 16; i++) {
+                    const radios = document.getElementsByName(`q${i}`);
+                    for (let r of radios) {
+                        r.checked = false;
+                    }
+                }
+
+                // Reset kalkulasi skor & preview
+                calculateScore();
+                updateLivePreview();
+                playTone(400, 0.2);
+            }
         }
 
         function generateReportText() {
