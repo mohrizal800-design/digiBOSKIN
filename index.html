@@ -481,9 +481,7 @@
 
         footer { text-align: center; margin-top: 40px; font-size: 13px; color: #fef3c7; border-top: 1px solid rgba(255,255,255,0.2); padding-top: 20px; }
 
-        /* ========================================================== */
-        /* STYLING KHUSUS CETAK / PDF (DOKUMEN RESMI OBSERVASI) */
-        /* ========================================================== */
+        /* Styling Khusus Cetak / PDF */
         @media print {
             body { background: white !important; color: black !important; filter: none !important; }
             .brightness-panel, .nav-tabs, header, .card h3, .wheel-container, .spinner-input, .btn-action-primary, .btn-action-pdf, footer, #landing-page, #page-dashboard, p[style*="font-size: 13px"] {
@@ -496,7 +494,6 @@
             .print-header h2 { font-size: 15pt; margin: 0 0 3px 0; text-transform: uppercase; }
             .print-header h3 { font-size: 12pt; margin: 0; }
             
-            /* Ubah input teks identitas menjadi teks biasa agar rapi saat dicetak */
             input.form-input {
                 border: none !important;
                 background: transparent !important;
@@ -515,7 +512,6 @@
 </head>
 <body>
 
-    <!-- Panel Kontrol Kecerahan -->
     <div class="brightness-panel">
         <span>☀️ Kecerahan:</span>
         <input type="range" id="brightnessRange" min="0.5" max="1.3" step="0.05" value="1" oninput="adjustBrightness(this.value)">
@@ -632,7 +628,6 @@ Ibu Dewi Lestari, S.Pd</textarea>
         <!-- HALAMAN 2: PENILAIAN REAL-TIME PEER TEACHING -->
         <div id="page-penilaian" class="page-section">
             <div class="card">
-                <!-- Header Cetak Dokumen Resmi -->
                 <div class="print-header">
                     <h2>Peer Teaching Pembelajaran Mendalam Berbasis Digital</h2>
                     <h3>LEMBAR OBSERVASI</h3>
@@ -710,7 +705,8 @@ Ibu Dewi Lestari, S.Pd</textarea>
                 <div class="recap-box">
                     <h2>📊 Rekapitulasi Hasil Penilaian</h2>
                     <p style="font-size: 16px; margin: 5px 0;">Total Perolehan Skor: <strong id="totalScore">0</strong> / 64</p>
-                    <p style="font-size: 20px; font-weight: bold; color: #0d9488; margin: 10px 0;">Nilai Akhir (Konversi): <span id="finalGrade">0</span> / 100</p>
+                    <p style="font-size: 18px; margin: 5px 0;">Nilai Konversi (Skala 60-100): <strong id="finalGrade">60.00</strong></p>
+                    <p style="font-size: 22px; font-weight: bold; color: #0d9488; margin: 10px 0;">Predikat: <span id="finalPredikat">-</span></p>
                     
                     <button class="btn-action-primary" onclick="copyAssessmentReport()">📋 Salin Teks Laporan</button>
                     <button class="btn-action-pdf" onclick="downloadPDFReport()">📥 Unduh / Cetak Laporan PDF</button>
@@ -732,6 +728,7 @@ Ibu Dewi Lestari, S.Pd</textarea>
             playTone(500, 0.05);
         }
 
+        // Kalkulator Skor dengan Rentang Konversi 60-100 dan Predikat
         function calculateScore() {
             let total = 0;
             for (let i = 1; i <= 16; i++) {
@@ -741,8 +738,36 @@ Ibu Dewi Lestari, S.Pd</textarea>
                 }
             }
             document.getElementById('totalScore').textContent = total;
-            const final = (total / 64) * 100;
-            document.getElementById('finalGrade').textContent = final.toFixed(2);
+
+            // Konversi proporsional dari skor max 64 ke rentang nilai 60 - 100
+            // Rumus: Nilai = 60 + (total / 64) * 40
+            let finalGrade = 60;
+            if (total > 0) {
+                finalGrade = 60 + (total / 64) * 40;
+            }
+            document.getElementById('finalGrade').textContent = finalGrade.toFixed(2);
+
+            // Penentuan Predikat Berdasarkan Rentang Nilai
+            // Cukup: 60 - 70 | Baik: 71 - 85 | Sangat Baik: 86 - 100
+            let predikat = "-";
+            let predikatColor = "#1e293b";
+
+            if (total > 0) {
+                if (finalGrade >= 86) {
+                    predikat = "Sangat Baik (86 - 100)";
+                    predikatColor = "#10b981"; // Hijau
+                } else if (finalGrade >= 71) {
+                    predikat = "Baik (71 - 85)";
+                    predikatColor = "#0284c7"; // Biru
+                } else {
+                    predikat = "Cukup (60 - 70)";
+                    predikatColor = "#f59e0b"; // Kuning/Oranye
+                }
+            }
+
+            const predikatEl = document.getElementById('finalPredikat');
+            predikatEl.textContent = predikat;
+            predikatEl.style.color = predikatColor;
         }
 
         function updateLivePreview() {
@@ -759,6 +784,7 @@ Ibu Dewi Lestari, S.Pd</textarea>
             const instansi = document.getElementById('obsInstansi').value || '(Belum diisi)';
             const total = document.getElementById('totalScore').textContent;
             const final = document.getElementById('finalGrade').textContent;
+            const predikat = document.getElementById('finalPredikat').textContent;
             const catatan = document.getElementById('obsCatatan').value || '-';
             const saran = document.getElementById('obsSaran').value || '-';
 
@@ -771,7 +797,8 @@ Ibu Dewi Lestari, S.Pd</textarea>
                    `• Instansi           : ${instansi}\n\n` +
                    `HASIL PENILAIAN:\n` +
                    `• Total Perolehan Skor  : ${total} / 64\n` +
-                   `• Nilai Akhir (Konversi): ${final} / 100\n\n` +
+                   `• Nilai Konversi (60-100): ${final}\n` +
+                   `• Predikat              : ${predikat}\n\n` +
                    `CATATAN HASIL PENGAMATAN:\n${catatan}\n\n` +
                    `SARAN PERBAIKAN:\n${saran}\n` +
                    `==================================================`;
